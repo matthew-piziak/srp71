@@ -5,3 +5,6 @@ authors = ["Matthew Piziak <matthew.piziak@gmail.com>"]
 
 [dependencies.zkill]
 git = "https://github.com/matthew-piziak/zkill"
+
+[dependencies.eve-type-id]
+git = "https://github.com/matthew-piziak/eve-type-id"

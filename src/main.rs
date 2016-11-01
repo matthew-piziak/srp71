@@ -2,10 +2,23 @@
 
 extern crate zkill;
 
+extern crate eve_type_id;
+
+// filter out item flag 5 for cargo
+// filter out item flag 87 for drones
+
 fn main() {
-    let request = zkill::ZkillRequest::new(0, zkill::ZkillRequestType::Losses);
-    let kills = zkill::kills(request);
-    for kill in kills {
-        println!("{:?}", kill);
+    let of_sound_mind_alliance_id = 99000739;
+    let request = zkill::ZkillRequest::new(of_sound_mind_alliance_id,
+                                           zkill::ZkillRequestType::Losses);
+    let losses = zkill::kills(request).into_iter().filter(is_pod);
+    let mut type_name_client = eve_type_id::TypeNameClient::new();
+    for loss in losses {
+        println!("{}", type_name_client.name(loss.victim_ship_type_id));
     }
+}
+
+fn is_pod(kill: &zkill::Kill) -> bool {
+    let pod_ship_type_id = 670;
+    kill.victim_ship_type_id != pod_ship_type_id
 }
