@@ -14,7 +14,12 @@ fn main() {
     let losses = zkill::kills(request).into_iter().filter(is_pod);
     let mut type_name_client = eve_type_id::TypeNameClient::new();
     for loss in losses {
-        println!("{}", type_name_client.name(loss.victim_ship_type_id));
+        println!("{:?}", type_name_client.name(loss.victim_ship_type_id));
+        let items: Vec<_> = loss.victim_items
+                                .iter()
+                                .map(|item| type_name_client.name(item.type_id))
+                                .collect();
+        println!("{:?}", items);
     }
 }
 

@@ -319,7 +319,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "zkill"
 version = "0.1.0"
-source = "git+https://github.com/matthew-piziak/zkill#2e167aa924f13928a3ffe434e45ca7bd2d6e073e"
+source = "git+https://github.com/matthew-piziak/zkill#05935710cad65c9fdb09e43970e5c5516ffd135d"
 dependencies = [
  "hyper 0.9.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.19 (registry+https://github.com/rust-lang/crates.io-index)",
