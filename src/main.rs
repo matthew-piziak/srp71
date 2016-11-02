@@ -7,6 +7,7 @@ extern crate eve_type_id;
 // filter out item flag 5 for cargo
 // filter out item flag 87 for drones
 // filter corpses too
+// filter implants
 
 fn main() {
     let of_sound_mind_alliance_id = 99000739;
