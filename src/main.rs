@@ -1,28 +1,34 @@
 //! Doctrine scraper for EVE Online
 
-extern crate zkill;
+#[macro_use]
+extern crate itertools;
 
+extern crate zkill;
 extern crate eve_type_id;
 
-// filter corpses too
+use itertools::Itertools;
+
+use std::collections::btree_map::BTreeMap;
 
 fn main() {
+    let mut count = BTreeMap::new();
     let of_sound_mind_alliance_id = 99000739;
     let request = zkill::ZkillRequest::new(of_sound_mind_alliance_id,
                                            zkill::ZkillRequestType::Losses);
     let losses = zkill::kills(request).into_iter().filter(ship_type_filter);
     let mut type_name_client = eve_type_id::TypeNameClient::new();
     for loss in losses {
-        println!("{:?}",
-                 (type_name_client.name(loss.victim_ship_type_id), loss.victim_ship_type_id));
-        let items: Vec<_> = loss.victim_items
-                                .into_iter()
-                                .filter(item_filter)
-                                .map(|item| {
-                                    (type_name_client.name(item.type_id), item.type_id, item.flag)
-                                })
-                                .collect();
-        println!("{:?}", items);
+        loss.victim_items
+            .into_iter()
+            .filter(item_filter)
+            .map(|item| type_name_client.name(item.type_id))
+            .foreach(|item_name| {
+                println!("item: {:?}", item_name);
+                *count.entry(item_name).or_insert(0) += 1;
+                for (item, count) in &count {
+                    println!("{:?}: {}", item, count);
+                }
+            });
     }
 }
 
