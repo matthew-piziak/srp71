@@ -33,7 +33,7 @@ fn main() {
 }
 
 fn ship_type_filter(kill: &zkill::Kill) -> bool {
-    !is_pod(kill) && !is_mobil_depot(kill)
+    !is_pod(kill) && !is_mobile_depot(kill)
 }
 
 fn item_filter(item: &zkill::Item) -> bool {
@@ -49,7 +49,7 @@ fn is_pod(kill: &zkill::Kill) -> bool {
     kill.victim_ship_type_id == genolution_pod_ship_type_id
 }
 
-fn is_mobil_depot(kill: &zkill::Kill) -> bool {
+fn is_mobile_depot(kill: &zkill::Kill) -> bool {
     let mobile_depot_ship_type_id = 33474;
     kill.victim_ship_type_id == mobile_depot_ship_type_id
 }
