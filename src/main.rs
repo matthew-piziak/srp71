@@ -9,6 +9,7 @@ extern crate eve_type_id;
 use itertools::Itertools;
 
 use std::collections::btree_map::BTreeMap;
+use std::iter::FromIterator;
 
 fn main() {
     let mut count = BTreeMap::new();
@@ -21,11 +22,16 @@ fn main() {
         loss.victim_items
             .into_iter()
             .filter(item_filter)
-            .map(|item| type_name_client.name(item.type_id))
-            .foreach(|item_name| {
+            .map(|item| {
+                (type_name_client.name(item.type_id),
+                 item.quantity_dropped + item.quantity_destroyed)
+            })
+            .foreach(|(item_name, quantity)| {
                 println!("item: {:?}", item_name);
-                *count.entry(item_name).or_insert(0) += 1;
-                for (item, count) in &count {
+                *count.entry(item_name).or_insert(0) += quantity;
+                let mut v = Vec::from_iter(count.clone());
+                v.sort_by(|&(_, a), &(_, b)| b.cmp(&a));
+                for (item, count) in v {
                     println!("{:?}: {}", item, count);
                 }
             });
