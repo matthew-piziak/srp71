@@ -4,6 +4,7 @@ version = "0.1.0"
 dependencies = [
  "eve-type-id 0.1.0 (git+https://github.com/matthew-piziak/eve-type-id)",
  "itertools 0.5.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "time 0.1.35 (registry+https://github.com/rust-lang/crates.io-index)",
  "zkill 0.1.0 (git+https://github.com/matthew-piziak/zkill)",
 ]
 
@@ -333,7 +334,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "zkill"
 version = "0.1.0"
-source = "git+https://github.com/matthew-piziak/zkill#fea1762188d8a55891085a15eb83e65b375ff537"
+source = "git+https://github.com/matthew-piziak/zkill#82f6a4a46459fc5f3e7b37103fa32c8acd4aeb2e"
 dependencies = [
  "hyper 0.9.14 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.22 (registry+https://github.com/rust-lang/crates.io-index)",
