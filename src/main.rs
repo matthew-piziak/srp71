@@ -21,6 +21,7 @@ fn main() {
 
     let mut page = 1;
     loop {
+        println!("Requesting Page {:?}", page);
         let request = zkill::ZkillRequest::new(of_sound_mind_alliance_id,
                                                zkill::ZkillRequestType::Losses,
                                                start_time.clone(),
@@ -31,6 +32,9 @@ fn main() {
         }
         let results: Vec<_> = results.unwrap();
         let losses: Vec<_> = results.into_iter().filter(ship_type_filter).collect();
+        if losses.len() == 0 {
+            break;
+        }
         for (index, loss) in losses.into_iter().enumerate() {
             let hull_name = type_name_client.name(loss.victim_ship_type_id);
             println!("Page {}: Loss {}", page, index);
