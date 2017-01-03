@@ -21,7 +21,6 @@ fn main() {
     for loss in losses {
         loss.victim_items
             .into_iter()
-            .filter(item_filter)
             .map(|item| {
                 (type_name_client.name(item.type_id),
                  item.quantity_dropped + item.quantity_destroyed)
@@ -40,12 +39,6 @@ fn main() {
 
 fn ship_type_filter(kill: &zkill::Kill) -> bool {
     !is_pod(kill) && !is_mobile_depot(kill)
-}
-
-fn item_filter(item: &zkill::Item) -> bool {
-    let cargo_flag = 5;
-    let drone_flag = 87;
-    item.flag != cargo_flag && item.flag != drone_flag
 }
 
 fn is_pod(kill: &zkill::Kill) -> bool {
