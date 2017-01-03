@@ -19,16 +19,18 @@ fn main() {
     let start_time = start_time();
     let mut type_name_client = eve_type_id::TypeNameClient::new();
 
-    let page = 1;
+    let mut page = 1;
     loop {
         let request = zkill::ZkillRequest::new(of_sound_mind_alliance_id,
                                                zkill::ZkillRequestType::Losses,
                                                start_time.clone(),
-                                               page);
-        let losses: Vec<_> = zkill::kills(request).into_iter().filter(ship_type_filter).collect();
-        if losses.len() == 0 {
+                                             page);
+        let results = zkill::kills(request);
+        if results.is_none() {
             break;
         }
+        let results: Vec<_> = results.unwrap();
+        let losses: Vec<_> = results.into_iter().filter(ship_type_filter).collect();
         for (index, loss) in losses.into_iter().enumerate() {
             let hull_name = type_name_client.name(loss.victim_ship_type_id);
             println!("Page {}: Loss {}", page, index);
@@ -43,6 +45,7 @@ fn main() {
                     *count.entry(item_name).or_insert(0) += quantity;
                 });
         }
+        page += 1;
     }
 
     let mut v = Vec::from_iter(count.clone());
