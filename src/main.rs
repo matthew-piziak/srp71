@@ -35,7 +35,7 @@ fn main() {
     let mut v = Vec::from_iter(count.clone());
     v.sort_by(|&(_, a), &(_, b)| b.cmp(&a));
     for (item, count) in v {
-        println!("{:?}: {}", item, count);
+        println!("{},{}", item, count);
     }
 }
 
