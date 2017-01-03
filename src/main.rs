@@ -18,7 +18,10 @@ fn main() {
                                            zkill::ZkillRequestType::Losses);
     let losses = zkill::kills(request).into_iter().filter(ship_type_filter);
     let mut type_name_client = eve_type_id::TypeNameClient::new();
-    for loss in losses {
+    for (index, loss) in losses.enumerate() {
+        let hull_name = type_name_client.name(loss.victim_ship_type_id);
+        println!("Loss {:?}: {:?}", index, loss);
+        *count.entry(hull_name).or_insert(0) += 1;
         loss.victim_items
             .into_iter()
             .map(|item| {
@@ -26,14 +29,13 @@ fn main() {
                  item.quantity_dropped + item.quantity_destroyed)
             })
             .foreach(|(item_name, quantity)| {
-                println!("item: {:?}", item_name);
                 *count.entry(item_name).or_insert(0) += quantity;
-                let mut v = Vec::from_iter(count.clone());
-                v.sort_by(|&(_, a), &(_, b)| b.cmp(&a));
-                for (item, count) in v {
-                    println!("{:?}: {}", item, count);
-                }
             });
+    }
+    let mut v = Vec::from_iter(count.clone());
+    v.sort_by(|&(_, a), &(_, b)| b.cmp(&a));
+    for (item, count) in v {
+        println!("{:?}: {}", item, count);
     }
 }
 
