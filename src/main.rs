@@ -24,7 +24,7 @@ fn main() {
         let request = zkill::ZkillRequest::new(of_sound_mind_alliance_id,
                                                zkill::ZkillRequestType::Losses,
                                                start_time.clone(),
-                                             page);
+                                               page);
         let results = zkill::kills(request);
         if results.is_none() {
             break;
@@ -75,5 +75,5 @@ fn start_time() -> String {
             start_time.tm_mon + 1,
             start_time.tm_mday,
             start_time.tm_hour,
-            start_time.tm_min)
+            0)
 }
