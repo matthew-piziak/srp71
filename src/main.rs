@@ -12,12 +12,14 @@ use itertools::Itertools;
 
 use std::collections::btree_map::BTreeMap;
 use std::iter::FromIterator;
+use std::path::PathBuf;
 
 fn main() {
     let mut count = BTreeMap::new();
     let of_sound_mind_alliance_id = 99000739;
     let start_time = start_time();
-    let mut type_name_client = eve_type_id::TypeNameClient::new();
+    let mut type_name_client =
+        eve_type_id::TypeNameClient::with_persistence(PathBuf::from("type_names.json")).unwrap();
 
     let mut page = 1;
     loop {
@@ -51,6 +53,8 @@ fn main() {
         }
         page += 1;
     }
+
+    let _ = type_name_client.persist();
 
     let mut v = Vec::from_iter(count.clone());
     v.sort_by(|&(_, a), &(_, b)| b.cmp(&a));
